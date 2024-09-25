@@ -1,37 +1,4 @@
-import logging
-import nest_asyncio
-import asyncio
-from telegram import Update
-from telegram.ext import Application, CommandHandler, ContextTypes, filters, MessageHandler
-from datetime import datetime
-import json
 
-# Allow nested asyncio event loops (important for interactive environments)
-nest_asyncio.apply()
-
-# Enable logging
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
-logger = logging.getLogger(__name__)
-
-# Bot token
-TOKEN = "7810065533:AAEUH5zLQOSitQOORv0O1TyI7wMG8J3hjTs"
-
-# Sample database structure to hold user data
-user_data = {
-    1476937429: {"rate": 0, "transactions": [], "daily_total": 0},
-    1468222763: {"rate": 0, "transactions": [], "daily_total": 0}
-}
-
-# Admin list (default admins)
-admins = {1476937429, 1468222763}
-
-# Save data to a file (persistence)
-def save_data():
-    with open('user_data.json', 'w') as f:
-        json.dump(user_data, f)
 
 # Load data from file
 def load_data():
@@ -296,30 +263,4 @@ async def main():
     load_data()
 
     # Command handlers
-    application.add_handler(CommandHandler("setrate", setrate))
-    application.add_handler(CommandHandler("dd", dd))
-    application.add_handler(CommandHandler("resetall", resetall))
-    application.add_handler(CommandHandler("todayhistory", todayhistory))
-    application.add_handler(CommandHandler("allhistory", allhistory))
-    application.add_handler(CommandHandler("bothtotal", bothtotal))
-    application.add_handler(CommandHandler("transactioncount", transactioncount))
-    application.add_handler(CommandHandler("setadmin", setadmin))
-    application.add_handler(CommandHandler("adminlist", adminlist))
-    application.add_handler(CommandHandler("convert", convert))
-    application.add_handler(CommandHandler("cmd", cmd))
-
-    # Handle messages that start with "."
-    application.add_handler(MessageHandler(filters.TEXT & filters.Regex(r"^\."), handle_dot_command))
-
-    # Start the bot using polling
-    logger.info("Bot is starting and polling for updates...")
-    await application.run_polling()
-
-if __name__ == "__main__":
-    # Use the already running event loop to avoid the error in VSCode/Notebooks
-    loop = asyncio.get_event_loop()
-    if not loop.is_running():
-        loop.run_until_complete(main())
-    else:
-        # If the event loop is already running, run the main function inside it
-        loop.create_task(main())
+    ap
